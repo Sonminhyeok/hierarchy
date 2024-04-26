@@ -6,12 +6,12 @@ import time
 # np.random.seed(int(time.time()))
 np.random.seed(42)
 
-def generate_and_plot_clusters(n_big_centers=3,  # 큰 중심점 수
+def generate_and_plot_clusters(n_big_centers=1,  # 큰 중심점 수
                                num_samples=100,  # Sample 수
                                cluster_std=0.5):  # Cluster 표준 편차 조정 용도
     # 큰 중심점 생성
     big_centers_x, big_centers_y, big_centers = make_blobs(n_samples=n_big_centers,
-                                                           n_features=1,
+                                                           n_features=3,
                                                            centers=n_big_centers,
                                                            center_box=(-10, 10),
                                                            return_centers=True)
@@ -38,34 +38,34 @@ def generate_and_plot_clusters(n_big_centers=3,  # 큰 중심점 수
                            cluster_std=cluster_std)
 
     # Data 시각화
-    fig = plt.figure(figsize=(10, 8))
-    ax = fig.add_subplot(111,
-                         projection='3d')
+    # fig = plt.figure(figsize=(10, 8))
+    # ax = fig.add_subplot(111,
+    #                      projection='3d')
 
-    # 각 Cluster에 대해 색상 할당
-    num_clusters = len(np.unique(labels))
-    cmap = plt.get_cmap('tab10')
-    colors = cmap(np.linspace(0, 1, num_clusters))
+    # # 각 Cluster에 대해 색상 할당
+    # num_clusters = len(np.unique(labels))
+    # cmap = plt.get_cmap('tab10')
+    # colors = cmap(np.linspace(0, 1, num_clusters))
 
-    for label in np.unique(labels):
-        ax.scatter(X[labels == label, 0], X[labels == label, 1], X[labels == label, 2],
-                   c=colors[label],
-                   marker='o',
-                   label=f'Cluster {label}')
+    # for label in np.unique(labels):
+    #     ax.scatter(X[labels == label, 0], X[labels == label, 1], X[labels == label, 2],
+    #                c=colors[label],
+    #                marker='o',
+    #                label=f'Cluster {label}')
 
-    # 중심점 표시
-    ax.scatter(small_centers[:, 0], small_centers[:, 1], small_centers[:, 2],
-               c='k',
-               marker='x',
-               s=100,
-               label='Centers')
-    ax.set_xlabel('X Label')
-    ax.set_ylabel('Y Label')
-    ax.set_zlabel('Z Label')
-    plt.title('Nested Cluster')
-    # plt.legend()
-    plt.savefig("2.png")
-    plt.show()
+    # # 중심점 표시
+    # ax.scatter(small_centers[:, 0], small_centers[:, 1], small_centers[:, 2],
+    #            c='k',
+    #            marker='x',
+    #            s=100,
+    #            label='Centers')
+    # ax.set_xlabel('X Label')
+    # ax.set_ylabel('Y Label')
+    # ax.set_zlabel('Z Label')
+    # plt.title('Nested Cluster')
+    # # plt.legend()
+    # plt.savefig("2.png")
+    # plt.show()
 
     return X, labels
 

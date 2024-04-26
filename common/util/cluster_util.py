@@ -2,6 +2,7 @@ from make_nested_cluster import generate_and_plot_clusters, draw_graph
 import numpy as np
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
+
 def test1(guess):
     
     # import cv2
@@ -145,14 +146,45 @@ class KmeansCluster():
         plt.show()
 
 
+    def draw_graph(self, k):
+
+        kmeans = KMeans(k)
+        kmeans.fit(self.X)
+        fig = plt.figure(figsize=(10, 8))
+        ax = fig.add_subplot(111, projection='3d')
+
+        # 각 Cluster에 대해 색상 할당
+        num_clusters = len(np.unique(kmeans.labels_))
+        cmap = plt.get_cmap('tab20')
+        colors = cmap(np.linspace(0, 1, num_clusters))
+
+        for label in np.unique(kmeans.labels_):
+            print(label)
+            ax.scatter(self.X[kmeans.labels_ == label, 0], self.X[kmeans.labels_ == label, 1], self.X[kmeans.labels_ == label, 2],
+                    c=colors[label],
+                    marker='o',
+                    label=f'Cluster {label}')
+
+        # 중심점 표시
+        ax.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], kmeans.cluster_centers_[:, 2],
+                c='black', marker='x', s=200, label='Centroids')
+
+        ax.set_xlabel('X Label')
+        ax.set_ylabel('Y Label')
+        ax.set_zlabel('Z Label')
+        plt.title(f'Nested Cluster{len(np.unique(kmeans.labels_))}')
+        # plt.legend()
+        plt.savefig("2.png")
+        plt.show()
+
 
 
 if __name__ == '__main__':
-    # generate_and_plot_clusters()
-    # x, labels = generate_and_plot_clusters(n_big_centers=1)
-    # kmeans =KmeansCluster(X=x)
+    x, labels = generate_and_plot_clusters(n_big_centers=6)
+    kmeans =KmeansCluster(X=x)
     
-    # result = kmeans.return_opt_k()
-    # kmeans.draw_alpha()
-    # print(result)
+    result = kmeans.return_opt_k()
+    kmeans.draw_alpha()
+    kmeans.draw_graph(6)
+    print(kmeans.opt_k)
     pass
